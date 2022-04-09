@@ -119,7 +119,7 @@ if(singinaction){
                     }
                     console.log("Document data:", docSnap.data());
                 } else {
-                    alert("Something Bad Happened!! please try re-login");
+                    alert("Something Bad Happened!! please contact- gaur.priyanshu169@gmail.com");
                     console.log("No such document!");
                 }
             });
