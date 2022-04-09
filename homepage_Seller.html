@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="js/firebase.js" type="module"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default text-primary" style="background-color: white;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">My Store</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" RenderingMode="List"
+                        IncludeStyleBlock="false" StaticMenuStyle-CssClass="nav navbar-nav"
+                        DynamicMenuStyle-CssClass="dropdown-menu">
+                    </asp:Menu>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="align-content:center">
+                        <button type="submit" id="logOutBtn" class="btn btn-link"
+                            style="margin-top: 3px; font-size: medium;">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="addProductForm" class="form-horizontal">
+                    
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_name">PRODUCT
+                            NAME</label>
+                        <div class="col-md-4">
+                            <input id="product_name" name="product_name" placeholder="PRODUCT NAME"
+                                class="form-control input-md" required type="text">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_description">PRODUCT
+                            DESCRIPTION</label>
+                        <div class="col-md-4">
+                            <input id="product_description" name="product_description" placeholder="PRODUCT DESCRIPTION"
+                                class="form-control input-md" required type="text">
+
+                        </div>
+                    </div>
+
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_categorie">PRODUCT
+                            CATEGORY</label>
+                        <div class="col-md-4">
+                            <select id="product_categorie" required name="product_categorie" class="form-control">
+                                <option value=""></option>
+                                <option value="newArrivals">New Arrivals </option>
+                                <option value="tranding">Tranding</option>
+                                <option value="mostPopular">Most Popular</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_price">Price</label>
+                        <div class="col-md-4">
+                            <input id="product_price" name="product_price" placeholder="PRICE"
+                                class="form-control input-md" required type="number">
+                        </div>
+                    </div>
+                    <input type="submit" name="addproductbtn" id="addproductbtn" class="btn btn-success" value="Add Product" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="container-fluid" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <table id="producttbl" class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Product Name
+                            </th>
+                            <th>
+                                Product Description
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                Price (in $)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="productbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        const auth = getAuth();
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                console.log(user.email + " is logged in!");
+            } else {
+                console.log('User is logged out!');
+                location.replace('index.html');
+            }
+        });
+
+        document.getElementById('logOutBtn').addEventListener('click', (e) => {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                //alert('user loged out');
+                location.replace('index.html');
+            }).catch((error) => {
+                // An error happened.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                alert(errorMessage);
+            });
+        });
+    </script>
+</body>
+
+</html>
